@@ -1,4 +1,4 @@
-package bookstore.productservice.port.product.exception;
+package bookstore.userservice.port.product.exception;
 
 public class NoProductsException extends Exception {
 

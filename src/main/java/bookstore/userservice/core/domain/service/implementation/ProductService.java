@@ -1,12 +1,11 @@
-package bookstore.productservice.core.domain.service.implementation;
+package bookstore.userservice.core.domain.service.implementation;
 
-import bookstore.productservice.core.domain.model.Product;
-import bookstore.productservice.core.domain.service.interfaces.IProductRepository;
-import bookstore.productservice.core.domain.service.interfaces.IProductService;
+import bookstore.userservice.core.domain.model.Product;
+import bookstore.userservice.core.domain.service.interfaces.IProductRepository;
+import bookstore.userservice.core.domain.service.interfaces.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

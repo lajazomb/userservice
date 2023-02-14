@@ -1,8 +1,7 @@
-package bookstore.productservice.core.domain.service.interfaces;
+package bookstore.userservice.core.domain.service.interfaces;
 
-import bookstore.productservice.core.domain.model.Product;
+import bookstore.userservice.core.domain.model.Product;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;

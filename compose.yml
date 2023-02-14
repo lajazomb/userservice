@@ -1,15 +1,15 @@
 version: '3.9'
 services:
-  product_service:
-    container_name: product_service
+  user_service:
+    container_name: user_service
     build:
-      context: /Users/younes/Desktop/PS
-      dockerfile: /Users/younes/Desktop/PS/Dockerfile
+      context: F:\KBE\userservice
+      dockerfile: F:\KBE\userservice\src\main\resources\Dockerfile
     depends_on:
-      products_db:
+      users_db:
         condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://products_db:5432/db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://users_db:5432/db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
@@ -17,9 +17,9 @@ services:
     ports:
       - 8080:8080
 
-  products_db:
+  users_db:
     image: 'postgres:latest'
-    container_name: products_db
+    container_name: users_db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

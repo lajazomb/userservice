@@ -1,6 +1,4 @@
-package bookstore.productservice.port.product.exception;
-
-import java.util.UUID;
+package bookstore.userservice.port.product.exception;
 
 public class EmptySearchResultException extends Exception {
     public EmptySearchResultException () {

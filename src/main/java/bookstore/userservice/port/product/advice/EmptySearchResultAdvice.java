@@ -1,7 +1,6 @@
-package bookstore.productservice.port.product.advice;
+package bookstore.userservice.port.product.advice;
 
-import bookstore.productservice.port.product.exception.NoProductsException;
-import bookstore.productservice.port.product.exception.ProductNotFoundException;
+import bookstore.userservice.port.product.exception.EmptySearchResultException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class NoProductsAdvice {
+public class EmptySearchResultAdvice {
 
     @ResponseBody
-    @ExceptionHandler(value = NoProductsException.class)
+    @ExceptionHandler(value = EmptySearchResultException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    String productNotFoundHandler(NoProductsException exception){
+    String productNotFoundHandler(EmptySearchResultException exception){
         return exception.getMessage();
     }
 

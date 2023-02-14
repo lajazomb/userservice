@@ -1,4 +1,4 @@
-package bookstore.productservice.core.domain.model;
+package bookstore.userservice.core.domain.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

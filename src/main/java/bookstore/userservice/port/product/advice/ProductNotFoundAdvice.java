@@ -1,6 +1,6 @@
-package bookstore.productservice.port.product.advice;
+package bookstore.userservice.port.product.advice;
 
-import bookstore.productservice.port.product.exception.ProductNotFoundException;
+import bookstore.userservice.port.product.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,6 +1,6 @@
-package bookstore.productservice.core.domain.service.interfaces;
+package bookstore.userservice.core.domain.service.interfaces;
 
-import bookstore.productservice.core.domain.model.Product;
+import bookstore.userservice.core.domain.model.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

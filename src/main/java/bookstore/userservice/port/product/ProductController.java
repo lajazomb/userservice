@@ -1,13 +1,11 @@
-package bookstore.productservice.port.product;
+package bookstore.userservice.port.product;
 
-import bookstore.productservice.core.domain.model.Product;
-import bookstore.productservice.core.domain.service.implementation.ProductService;
-import bookstore.productservice.core.domain.service.interfaces.IProductService;
-import bookstore.productservice.port.product.exception.EmptySearchResultException;
-import bookstore.productservice.port.product.exception.NoProductsException;
-import bookstore.productservice.port.product.exception.ProductNotFoundException;
+import bookstore.userservice.core.domain.model.Product;
+import bookstore.userservice.core.domain.service.implementation.ProductService;
+import bookstore.userservice.port.product.exception.EmptySearchResultException;
+import bookstore.userservice.port.product.exception.NoProductsException;
+import bookstore.userservice.port.product.exception.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
