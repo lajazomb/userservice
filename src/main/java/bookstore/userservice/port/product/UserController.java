@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/users/{string:.+}/")
     public User getUserByString(@PathVariable(value="string") String string, HttpServletResponse response) throws UserNotFoundException {
-        response.setContentType("application/x-www-form-urlencoded"); // avoid issues with dots and other special chars in emails
+        response.setContentType("application/x-www-form-urlencoded"); // avoid issues with dots and other special chars in request
 
         User user;
         boolean email = string.contains("@"); // TODO: proper email parsing
