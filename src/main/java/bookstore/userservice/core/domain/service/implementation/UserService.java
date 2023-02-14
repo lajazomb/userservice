@@ -42,9 +42,9 @@ public class UserService implements IUserService {
 
     @Override
     public void updateUser(User user) {
-        boolean exists = productRepository.existsById(user.getUserId());
+        boolean exists = productRepository.findByUsername(user.getUsername()) != null;
         if (exists) {
-            productRepository.deleteById(user.getUserId());
+            productRepository.deleteById(productRepository.findByUsername(user.getUsername()).getUserId());
             productRepository.save(user);
         }
     }
