@@ -69,28 +69,6 @@ public class UserController {
         userService.removeUser(id);
     }
 
-    @DeleteMapping("/users/{string}")
-    public void deleteUser(@PathVariable String string) throws UserNotFoundException {
-
-        boolean email = string.contains("@");
-        User user;
-        if (email) { // TODO: Implement regex parsing for emails maybe
-            user = userService.getUserByEmail(string);
-        }else {
-            user = userService.getUserByUsername(string);
-        }
-
-        if (user == null) {
-            throw new UserNotFoundException(email, string);
-        }
-
-        if (email) {
-            userService.removeUserByEmail(string);
-        }else {
-            userService.removeUserByUsername(string);
-        }
-    }
-
     //TODO: Find a way to test in US
     @PutMapping(path="/users")
     public void update (@RequestBody User user) {

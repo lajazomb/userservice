@@ -53,16 +53,4 @@ public class UserService implements IUserService {
     public void removeUser(UUID id) {
         productRepository.deleteById(id);
     }
-
-    @Override
-    public void removeUserByUsername(String username) {
-        boolean exists = productRepository.findByUsername(username) != null;
-        if (exists) productRepository.delete(productRepository.findByUsername(username));
-    }
-
-    @Override
-    public void removeUserByEmail(String email) {
-        boolean exists = productRepository.findByEmail(email) != null;
-        if (exists) productRepository.delete(productRepository.findByEmail(email));
-    }
 }

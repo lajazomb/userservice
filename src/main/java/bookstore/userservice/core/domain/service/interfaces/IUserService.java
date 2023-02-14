@@ -23,8 +23,4 @@ public interface IUserService {
 
     public void removeUser(UUID id);
 
-    public void removeUserByUsername(String username);
-
-    public void removeUserByEmail(String email);
-
 }
