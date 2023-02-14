@@ -2,9 +2,8 @@ package bookstore.userservice.port.product;
 
 import bookstore.userservice.core.domain.model.User;
 import bookstore.userservice.core.domain.service.implementation.UserService;
-import bookstore.userservice.port.product.exception.EmptySearchResultException;
-import bookstore.userservice.port.product.exception.NoUsersException;
-import bookstore.userservice.port.product.exception.UserNotFoundException;
+import bookstore.userservice.port.product.exception.*;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +28,7 @@ public class UserController {
         return users;
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/user/{id}")
     public User getUser(@PathVariable UUID id) throws UserNotFoundException {
         User user = userService.getUser(id);
 
@@ -40,12 +39,14 @@ public class UserController {
         return user;
     }
 
-    @GetMapping("/users/{string}")
-    public User getUser(@PathVariable String string) throws UserNotFoundException {
-        // TODO: remove code duplicate
-        boolean email = string.contains("@");
+    @GetMapping("/users/{string:.+}/")
+    public User getUserByString(@PathVariable(value="string") String string, HttpServletResponse response) throws UserNotFoundException {
+        response.setContentType("application/x-www-form-urlencoded"); // avoid issues with dots and other special chars in emails
+
         User user;
-        if (email) { // TODO: Implement regex parsing for emails maybe
+        boolean email = string.contains("@"); // TODO: proper email parsing
+
+        if (email) {
             user = userService.getUserByEmail(string);
         }else {
             user = userService.getUserByUsername(string);
@@ -60,7 +61,20 @@ public class UserController {
 
     //TODO: Find a way to test in US
     @PostMapping("/users")
-    public @ResponseBody User createProduct (@RequestBody User user) {
+    public @ResponseBody User createUser (@RequestBody User user) throws UserUsernameAlreadyExistsException, UserEmailAlreadyExistsException {
+        String username = user.getUsername();
+        String email = user.getEmail();
+
+        // Check if username already exists
+        if (userService.getUserByUsername(username) != null) {
+            throw new UserUsernameAlreadyExistsException(username);
+        }
+
+        // Check if email already exists
+        if (userService.getUserByEmail(email) != null) {
+            throw new UserEmailAlreadyExistsException(email);
+        }
+
         return userService.createUser(user);
     }
 
