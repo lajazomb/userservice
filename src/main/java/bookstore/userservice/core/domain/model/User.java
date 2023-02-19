@@ -2,43 +2,63 @@ package bookstore.userservice.core.domain.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Date;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Table(name = "users")
-@AllArgsConstructor
+@Data
+@Builder
 @NoArgsConstructor
-public class User {
+@AllArgsConstructor
+@Entity
+@Table(name = "_user")
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy= GenerationType.UUID)
-    @Getter private UUID userId;
+    private UUID id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
 
-    @Column(nullable = false)
-    @Getter private String username;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    @Column(nullable = false)
-    @Getter private String email;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
 
-    @Column(nullable = false)
-    @Getter private String password; // TODO: Store only the hash
+    @Override
+    public String getUsername() {
+        return email;
+    }
 
-    @Column(nullable = false)
-    @Getter private String address;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-    @Column(nullable = false)
-    @Getter private String zipCode;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-    @Column(nullable = false)
-    @Getter private String country;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-    @Column(nullable = false)
-    @Getter private String city;
-
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
-
