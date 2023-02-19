@@ -1,7 +1,7 @@
 package bookstore.userservice.core.domain.service.implementation;
 
-import bookstore.userservice.config.JwtService;
 import bookstore.userservice.core.domain.model.*;
+import bookstore.userservice.core.domain.service.interfaces.IAuthenticationService;
 import bookstore.userservice.core.domain.service.interfaces.UserRepository;
 import bookstore.userservice.port.product.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;

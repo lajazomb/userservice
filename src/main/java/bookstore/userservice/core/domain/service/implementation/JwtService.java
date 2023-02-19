@@ -1,5 +1,6 @@
-package bookstore.userservice.config;
+package bookstore.userservice.core.domain.service.implementation;
 
+import bookstore.userservice.core.domain.service.interfaces.IJwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,8 +18,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
-    @Autowired private Environment env; // Zugriff über @Value nicht möglich
+public class JwtService implements IJwtService {
+    @Autowired private Environment env;
 
     private static final long EXPIRATION_TIME = 60 * 60 * 6 * 1000; // 6h
 
@@ -41,22 +42,18 @@ public class JwtService {
         return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
     }
 
     private Claims extractAllClaims(String token) {
@@ -68,5 +65,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
 }
