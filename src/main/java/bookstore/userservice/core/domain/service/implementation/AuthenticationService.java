@@ -10,6 +10,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
@@ -25,11 +28,16 @@ public class AuthenticationService implements IAuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .address(request.getAddress())
+                .country(request.getCountry())
+                .city(request.getCity())
+                .zipCode(request.getZipCode())
                 .role(Role.USER)
                 .build();
 
         repository.save(user);
-        var jwtToken = jwtService.generateToken(user); // no extra claims
+
+        var jwtToken = jwtService.generateToken(user.getClaims(), user); // no extra claims
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -47,7 +55,7 @@ public class AuthenticationService implements IAuthenticationService {
         var user = repository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException());
 
         // generate Token
-        var jwtToken = jwtService.generateToken(user); // no extra claims
+        var jwtToken = jwtService.generateToken(user.getClaims(), user);
         // send Token
         return AuthenticationResponse.builder()
                 .token(jwtToken)

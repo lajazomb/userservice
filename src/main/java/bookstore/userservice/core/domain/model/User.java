@@ -1,17 +1,12 @@
 package bookstore.userservice.core.domain.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @Builder
@@ -24,13 +19,17 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy= GenerationType.UUID)
     private UUID id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
+    @NonNull private String firstName;
+    @NonNull private String lastName;
+    @NonNull private String email;
+    @NonNull private String password;
+    @NonNull private String address;
+    @NonNull private String country;
+    @NonNull private String city;
+    @NonNull private String zipCode;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @NonNull private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -60,5 +59,19 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Map<String, Object> getClaims() {
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put("firstName", this.getFirstName());
+        claims.put("lastName", this.getLastName());
+        claims.put("address", this.getAddress());
+        claims.put("country", this.getCountry());
+        claims.put("city", this.getCity());
+        claims.put("zipCode", this.getZipCode());
+        claims.put("role", this.getRole().toString());
+
+        return claims;
     }
 }
