@@ -3,6 +3,8 @@ package bookstore.userservice.core.domain.service.implementation;
 import bookstore.userservice.core.domain.model.*;
 import bookstore.userservice.core.domain.service.interfaces.IAuthenticationService;
 import bookstore.userservice.core.domain.service.interfaces.UserRepository;
+import bookstore.userservice.port.user.exception.InvalidEmailException;
+import bookstore.userservice.port.user.exception.UserEmailAlreadyExistsException;
 import bookstore.userservice.port.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +24,16 @@ public class AuthenticationService implements IAuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) throws UserEmailAlreadyExistsException, InvalidEmailException {
+        String email = request.getEmail();
+        if (!repository.findByEmail(email).isEmpty()) {
+            throw new UserEmailAlreadyExistsException(email);
+        }
+
+        if (!isValidEmail(email)) {
+            throw new InvalidEmailException();
+        }
+
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -60,5 +71,10 @@ public class AuthenticationService implements IAuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    private boolean isValidEmail(String email) {
+        String regex = "[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})";
+        return email.matches(regex);
     }
 }
