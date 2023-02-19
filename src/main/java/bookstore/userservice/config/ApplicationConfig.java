@@ -1,7 +1,7 @@
 package bookstore.userservice.config;
 
 import bookstore.userservice.core.domain.service.interfaces.UserRepository;
-import bookstore.userservice.port.product.exception.UserNotFoundException;
+import bookstore.userservice.port.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

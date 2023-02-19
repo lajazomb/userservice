@@ -1,6 +1,6 @@
-package bookstore.userservice.port.product.advice;
+package bookstore.userservice.port.user.advice;
 
-import bookstore.userservice.port.product.exception.UserEmailAlreadyExistsException;
+import bookstore.userservice.port.user.exception.EmptySearchResultException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class UserEmailAlreadyExistsAdvice {
+public class EmptySearchResultAdvice {
 
     @ResponseBody
-    @ExceptionHandler(value = UserEmailAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    String userEmailAlreadyExistsHandler(UserEmailAlreadyExistsException exception){
+    @ExceptionHandler(value = EmptySearchResultException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String userNotFoundHandler(EmptySearchResultException exception){
         return exception.getMessage();
     }
 

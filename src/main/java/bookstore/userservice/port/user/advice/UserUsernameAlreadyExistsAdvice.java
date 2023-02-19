@@ -1,6 +1,6 @@
-package bookstore.userservice.port.product.advice;
+package bookstore.userservice.port.user.advice;
 
-import bookstore.userservice.port.product.exception.UserNotFoundException;
+import bookstore.userservice.port.user.exception.UserUsernameAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class UserNotFoundAdvice {
+public class UserUsernameAlreadyExistsAdvice {
 
     @ResponseBody
-    @ExceptionHandler(value = UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String userNotFoundHandler(UserNotFoundException exception){
+    @ExceptionHandler(value = UserUsernameAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    String userUsernameAlreadyExistsHandler(UserUsernameAlreadyExistsException exception){
         return exception.getMessage();
     }
 

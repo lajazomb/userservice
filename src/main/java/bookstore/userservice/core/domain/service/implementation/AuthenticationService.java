@@ -3,7 +3,7 @@ package bookstore.userservice.core.domain.service.implementation;
 import bookstore.userservice.core.domain.model.*;
 import bookstore.userservice.core.domain.service.interfaces.IAuthenticationService;
 import bookstore.userservice.core.domain.service.interfaces.UserRepository;
-import bookstore.userservice.port.product.exception.UserNotFoundException;
+import bookstore.userservice.port.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

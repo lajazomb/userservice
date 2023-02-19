@@ -1,4 +1,4 @@
-package bookstore.userservice.port.product;
+package bookstore.userservice.port.user.controller;
 
 import bookstore.userservice.core.domain.model.AuthenticationRequest;
 import bookstore.userservice.core.domain.model.AuthenticationResponse;

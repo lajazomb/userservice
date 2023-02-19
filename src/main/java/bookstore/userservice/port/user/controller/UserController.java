@@ -1,4 +1,4 @@
-package bookstore.userservice.port.product;
+package bookstore.userservice.port.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

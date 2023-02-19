@@ -1,6 +1,6 @@
-package bookstore.userservice.port.product.advice;
+package bookstore.userservice.port.user.advice;
 
-import bookstore.userservice.port.product.exception.NoUsersException;
+import bookstore.userservice.port.user.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class NoUsersAdvice {
+public class UserNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(value = NoUsersException.class)
+    @ExceptionHandler(value = UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String userNotFoundHandler(NoUsersException exception){
+    String userNotFoundHandler(UserNotFoundException exception){
         return exception.getMessage();
     }
 

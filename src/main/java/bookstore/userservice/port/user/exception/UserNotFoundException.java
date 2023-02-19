@@ -1,4 +1,4 @@
-package bookstore.userservice.port.product.exception;
+package bookstore.userservice.port.user.exception;
 
 public class UserNotFoundException extends RuntimeException {
 
