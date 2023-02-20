@@ -52,6 +52,7 @@ public class AuthenticationService implements IAuthenticationService {
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .isAdmin(user.getRole() == Role.ADMIN)
                 .build();
     }
 
@@ -70,6 +71,7 @@ public class AuthenticationService implements IAuthenticationService {
         // send Token
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .isAdmin(user.getRole() == Role.ADMIN)
                 .build();
     }
 
