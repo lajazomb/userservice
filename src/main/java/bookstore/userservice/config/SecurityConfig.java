@@ -23,7 +23,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**") // allow all requests to /auth/*
+                .requestMatchers("/api/v1/auth/**") // allow all requests to /auth/*
                 .permitAll()
                 .anyRequest() // every other request needs to be authenticated via JWT
                 .authenticated()
