@@ -13,7 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AuthenticationRequest {
 
-    private UUID userid;
     private String email;
     private String password;
 }

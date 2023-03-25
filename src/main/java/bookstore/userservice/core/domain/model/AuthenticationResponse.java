@@ -13,7 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AuthenticationResponse {
 
-    private UUID userid;
     private String token;
     private boolean isAdmin;
 }

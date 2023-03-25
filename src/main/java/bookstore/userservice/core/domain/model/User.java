@@ -64,6 +64,7 @@ public class User implements UserDetails {
     public Map<String, Object> getClaims() {
         Map<String, Object> claims = new HashMap<>();
 
+        claims.put("userid", this.getId());
         claims.put("firstName", this.getFirstName());
         claims.put("lastName", this.getLastName());
         claims.put("address", this.getAddress());
