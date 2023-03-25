@@ -51,6 +51,7 @@ public class AuthenticationService implements IAuthenticationService {
         var jwtToken = jwtService.generateToken(user.getClaims(), user); // no extra claims
 
         return AuthenticationResponse.builder()
+                .userid(user.getId())
                 .token(jwtToken)
                 .isAdmin(user.getRole() == Role.ADMIN)
                 .build();
@@ -70,6 +71,7 @@ public class AuthenticationService implements IAuthenticationService {
         var jwtToken = jwtService.generateToken(user.getClaims(), user);
         // send Token
         return AuthenticationResponse.builder()
+                .userid(user.getId())
                 .token(jwtToken)
                 .isAdmin(user.getRole() == Role.ADMIN)
                 .build();
