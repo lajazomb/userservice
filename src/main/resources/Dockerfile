@@ -10,5 +10,5 @@ WORKDIR /app
 
 # F:\KBE\productservice\target
 COPY --from=build /app/target/app.jar /app
-EXPOSE 8080
+EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
