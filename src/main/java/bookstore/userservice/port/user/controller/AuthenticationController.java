@@ -3,7 +3,6 @@ package bookstore.userservice.port.user.controller;
 import bookstore.userservice.core.domain.model.AuthenticationRequest;
 import bookstore.userservice.core.domain.model.AuthenticationResponse;
 import bookstore.userservice.core.domain.model.RegisterRequest;
-import bookstore.userservice.core.domain.service.implementation.AuthenticationService;
 import bookstore.userservice.core.domain.service.interfaces.IAuthenticationService;
 import bookstore.userservice.port.user.exception.InvalidEmailException;
 import bookstore.userservice.port.user.exception.UserEmailAlreadyExistsException;
