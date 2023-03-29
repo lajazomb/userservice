@@ -3,60 +3,95 @@ package bookstore.userservice.port.user.controller;
 import bookstore.userservice.core.domain.model.AuthenticationRequest;
 import bookstore.userservice.core.domain.model.AuthenticationResponse;
 import bookstore.userservice.core.domain.model.RegisterRequest;
-import bookstore.userservice.core.domain.service.implementation.AuthenticationService;
-import bookstore.userservice.port.user.exception.InvalidEmailException;
-import bookstore.userservice.port.user.exception.UserEmailAlreadyExistsException;
+import bookstore.userservice.core.domain.service.interfaces.IAuthenticationService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
+@SpringBootTest
 public class AuthenticationControllerTests {
 
+    private MockMvc mockMvc;
+
     @Mock
-    private AuthenticationService authenticationService;
+    private IAuthenticationService authenticationService;
 
     @InjectMocks
     private AuthenticationController authenticationController;
 
-    @Test
-    public void testRegister() throws UserEmailAlreadyExistsException, InvalidEmailException {
-        // Setup
-        RegisterRequest request = new RegisterRequest("John", "Doe", "johndoe@example.com", "password123", "123 Main St", "USA", "New York", "10001");
-        AuthenticationResponse expectedResponse = new AuthenticationResponse("token", false);
+    private static final String BASE_URL = "/api/v1/auth/";
 
-        // Stubbing
-        when(authenticationService.register(request)).thenReturn(expectedResponse);
-
-        // Execute
-        ResponseEntity<AuthenticationResponse> response = authenticationController.register(request);
-
-        // Verify
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedResponse, response.getBody());
+    @Before
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(authenticationController).build();
     }
 
     @Test
-    public void testAuthenticate() {
-        // Setup
-        AuthenticationRequest request = new AuthenticationRequest("email@example.com", "password");
-        AuthenticationResponse expectedResponse = new AuthenticationResponse("token", false);
+    public void registerUser() throws Exception {
+        RegisterRequest request = RegisterRequest.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john.doe@example.com")
+                .password("password")
+                .address("123 Main St")
+                .country("US")
+                .city("Anytown")
+                .zipCode("12345")
+                .build();
+        AuthenticationResponse response = AuthenticationResponse.builder()
+                .token("token")
+                .isAdmin(false)
+                .build();
+        given(authenticationService.register(request)).willReturn(response);
 
-        // Stubbing
-        when(authenticationService.authenticate(request)).thenReturn(expectedResponse);
+        mockMvc.perform(post(BASE_URL + "register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").value(response.getToken()))
+                .andExpect(jsonPath("$.admin").value(response.isAdmin()));
+    }
 
-        // Execute
-        ResponseEntity<AuthenticationResponse> response = authenticationController.authenticate(request);
+    @Test
+    public void authenticateUser() throws Exception {
+        AuthenticationRequest request = AuthenticationRequest.builder()
+                .email("john.doe@example.com")
+                .password("password")
+                .build();
+        AuthenticationResponse response = AuthenticationResponse.builder()
+                .token("token")
+                .isAdmin(false)
+                .build();
+        given(authenticationService.authenticate(request)).willReturn(response);
 
-        // Verify
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedResponse, response.getBody());
+        mockMvc.perform(post(BASE_URL + "authenticate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").value(response.getToken()))
+                .andExpect(jsonPath("$.admin").value(response.isAdmin()));
+    }
+
+    private static String asJsonString(final Object obj) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
