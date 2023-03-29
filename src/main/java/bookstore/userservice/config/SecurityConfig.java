@@ -23,10 +23,8 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**") // allow all requests to /auth/*
+                .requestMatchers("/**") // allow all requests
                 .permitAll()
-                .anyRequest() // every other request needs to be authenticated via JWT
-                .authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
