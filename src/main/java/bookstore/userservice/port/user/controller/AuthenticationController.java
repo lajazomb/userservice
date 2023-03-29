@@ -4,6 +4,7 @@ import bookstore.userservice.core.domain.model.AuthenticationRequest;
 import bookstore.userservice.core.domain.model.AuthenticationResponse;
 import bookstore.userservice.core.domain.model.RegisterRequest;
 import bookstore.userservice.core.domain.service.implementation.AuthenticationService;
+import bookstore.userservice.core.domain.service.interfaces.IAuthenticationService;
 import bookstore.userservice.port.user.exception.InvalidEmailException;
 import bookstore.userservice.port.user.exception.UserEmailAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    private final IAuthenticationService service;
 
     @PostMapping("register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) throws UserEmailAlreadyExistsException, InvalidEmailException {
