@@ -3,8 +3,8 @@ services:
   user_service:
     container_name: user_service
     build:
-      context: F:\KBE\userservice
-      dockerfile: F:\KBE\userservice\src\main\resources\Dockerfile
+      context: ./
+      dockerfile: src/main/resources/Dockerfile
     depends_on:
       users_db:
         condition: service_healthy
